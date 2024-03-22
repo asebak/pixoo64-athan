@@ -54,19 +54,18 @@ def main():
 
             next_slot_data = current_slot.next.data
 
-            match next_slot_data.name:
-                case 'Magrib' | 'Fajr':
-                    text_color = morning
-                    bg_color = dawn_evening
-                    picture = 'dawn_evening'
-                case 'Isha':
-                    text_color = morning
-                    bg_color = night
-                    picture = 'night'
-                case _:
-                    text_color = night
-                    bg_color = morning
-                    picture = 'morning'
+            if next_slot_data.name in ("Magrib", "Fajr"):
+                text_color = morning
+                bg_color = dawn_evening
+                picture = 'dawn_evening'
+            elif next_slot_data.name == "Isha":
+                text_color = morning
+                bg_color = night
+                picture = 'night'
+            else:
+                text_color = night
+                bg_color = morning
+                picture = 'morning'
 
             warning_text_color = text_color
             start_time = int(next_slot_data.athan.strftime("%H")) * 60 + int(next_slot_data.athan.strftime("%M"))
@@ -85,9 +84,8 @@ def main():
 
             pixoo.push()
 
-
-        except:
-            print("Exception occurred")
+        except BaseException as e:
+            print("Exception occurred: " + str(e))
         finally:
             time.sleep(timeout)
 
